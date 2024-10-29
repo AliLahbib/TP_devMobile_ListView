@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         ListView listView = findViewById(R.id.myListView);
 
         // Liste de fruits avec noms et images
@@ -42,5 +46,25 @@ public class MainActivity extends AppCompatActivity {
         // Créer l'adaptateur et l'associer à la ListView
         FruitAdapter adapter = new FruitAdapter(this, fruits);
         listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Fruit selectedFruit = fruits.get(position);
+                System.out.println("debug on item click");
+                // Crée un Intent pour démarrer DetailActivity
+                Intent intent = new Intent(MainActivity.this, PurchaseActivity.class);
+
+
+                intent.putExtra("fruitName", selectedFruit.getName());
+                intent.putExtra("fruitPrice",selectedFruit.getPrice());
+
+
+                startActivity(intent);
+            }
+        });
+
     }
 }
